@@ -5,10 +5,10 @@ namespace VeynKeysAPI.Data
 {
     public class DataContext:DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer(@"data source=DESKTOP-ABKBG8G;initial catalog=VeynKeysApiDb;integrated security=true");
         }
+
 
         public DbSet<Category>? Category { get; set; }
         public DbSet<Product>? Product { get; set; }

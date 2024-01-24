@@ -10,21 +10,27 @@ namespace VeynKeysAPI.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        DataContext db = new DataContext();
-        
+        private readonly DataContext _context;
+
+        public CategoryController(DataContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         [AllowAnonymous]//Token izni olmadan çalışacak
         public IEnumerable<Category> GetAll()
         {
-            return db.Category.ToList();
+            return _context.Category.ToList();
         }
 
         [HttpGet("{id}")]
-        [Authorize]//token izni gereken metot
+        [AllowAnonymous]
         public Category GetById(int id)
         {
-            var category = db.Category.FirstOrDefault(x => x.Id == id);
-            return category;
+           
+            return _context.Category.Find(id);
+            
         }
     }
 }

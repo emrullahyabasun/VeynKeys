@@ -24,4 +24,7 @@ public class AuthController : ControllerBase
 
         return result;
     }
+
+    
+
 }

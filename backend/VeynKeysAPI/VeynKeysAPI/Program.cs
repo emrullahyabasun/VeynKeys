@@ -3,6 +3,8 @@ using VeynKeysAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using VeynKeysAPI.Data;
 
 namespace VeynKeysAPI
 {
@@ -19,6 +21,11 @@ namespace VeynKeysAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            //DB
+            builder.Services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             //JWT
             builder.Services.AddTransient<IAuthService, AuthService>();

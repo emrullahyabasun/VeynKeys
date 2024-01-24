@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VeynKeysAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ce7ff519d3979ea2f998d66657da7098acd91254")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+df1505a1f13444e70d903a31cdc1bf570542b4f4")]
 [assembly: System.Reflection.AssemblyProductAttribute("VeynKeysAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VeynKeysAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

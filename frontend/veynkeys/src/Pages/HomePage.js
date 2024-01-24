@@ -1,10 +1,11 @@
 import React from 'react'
 import CategorybuttonedProducts from '../Components/CategorybuttonedProducts'
+import BlogGrid from '../Components/BlogGrid'
 
 function HomePage() {
   return (
     <>
-      <CategorybuttonedProducts />
+      <BlogGrid />
       {/* ================Brand Logo Area Start=====================*/}
       <div className="brand-area mt-35">
         <div className="container">
@@ -96,6 +97,8 @@ function HomePage() {
         </div>
       </div>
       {/* ================Brand Logo Area End=====================*/}
+
+
     </>
   )
 }

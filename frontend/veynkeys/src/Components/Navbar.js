@@ -28,15 +28,7 @@ function Navbar() {
                             <li className="nav-item">
                                 <Link className="nav-link active" to="/BlogPage">Blogs</Link>
                             </li>
-                            <li className="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Categories
-                                </a>
-                                <div className="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
-                                    <Link className="dropdown-item" to="/AboutUsPage">DUMMY</Link>
-                                    {/* ... diğer bağlantılar ... */}
-                                </div>
-                            </li>
+                            
                             <li className="nav-item">
                                 <Link className="nav-link active" to="/AboutUsPage">About Us</Link>
                             </li>

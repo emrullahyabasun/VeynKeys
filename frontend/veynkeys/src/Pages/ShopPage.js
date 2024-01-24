@@ -207,22 +207,7 @@ function ShopPage() {
 
                             </div>
                             {/* Shop Wrapper End */}
-                            {/* Pagınatıonda kullan */}
-                            {/* <div className="toolbar-shop toolbar-bottom">
-                                <div className="page-amount">
-                                    <p>Showing 1-10 of 30 results</p>
-                                </div>
-                                <div className="pagination">
-                                    <ul>
-                                        <li className="previous"><a href="#"><i className="fa fa-angle-left" /> Previous</a></li>
-                                        <li className="current">1</li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li className="next"><a href="#">Next <i className="fa fa-angle-right" /></a></li>
-                                    </ul>
-                                </div>
-                            </div> */}
-                            {/* Pagınatıon End */}
+                          
                         </div>
                     </div>
                 </div>

@@ -11,7 +11,7 @@ function AboutUsPage() {
                     <div className="row">
                         <div className="offset-lg-2 col-lg-8 text-center">
                             <div className="about-head">
-                                <h3 className="mb-20">Welcome To Circle shop!</h3>
+                                <h3 className="mb-20">Welcome To Keychron!</h3>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia minima consequuntur nulla voluptate sunt accusamus error dolores laboriosam facere, et saepe, velit incidunt doloremque ab eius. Explicabo magnam iure et.</p>
                             </div>
                         </div>

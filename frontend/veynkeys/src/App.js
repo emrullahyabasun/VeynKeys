@@ -12,6 +12,7 @@ import ShopPage from './Pages/ShopPage';
 import ProductDetailPage from './Pages/ProductDetailPage';
 import LoginPage from './Pages/LoginPage';
 import CartPage from './Pages/CartPage';
+import BlogPage from './Pages/BlogPage';
 
 
 function App() {
@@ -21,13 +22,14 @@ function App() {
         <Navbar />
         <Carousel />
         <Routes>
-          <Route path="/" element={<LoginPage />} />  // Ana sayfada LoginPage görüntüleniyor
-          <Route path="/home" element={<HomePage />} />  // HomePage artık '/home' adresinde
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/home" element={<HomePage />} />  {/* HomePage artık '/home' adresinde*/}
           <Route path="/AboutUsPage" element={<AboutUsPage />} />
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/ShopPage" element={<ShopPage />} />
           <Route path="/ProductDetailPage/:productId" element={<ProductDetailPage />} />
           <Route path="/CartPage" element={<CartPage />} />
+          <Route path="/BlogPage" element={<BlogPage />} />
           {/* Giriş başarılıysa, '/home' adresine yönlendir */}
           <Route path="/login" element={<Navigate replace to="/home" />} />
         </Routes>

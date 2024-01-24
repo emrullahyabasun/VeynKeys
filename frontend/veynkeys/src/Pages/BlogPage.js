@@ -1,8 +1,11 @@
 import React from 'react'
+import BlogGrid from '../Components/BlogGrid'
 
 function BlogPage() {
   return (
-    <div>BlogPage</div>
+   <>
+   <BlogGrid />
+   </>
   )
 }
 

@@ -4,30 +4,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../Slices/productsSlice';
 import { addToCart } from '../Slices/cartSlice';
 
-function ShopPage() {
 
+
+const ShopPage = () => {
     const dispatch = useDispatch();
-    const products = useSelector((state) => state.products.items);
-    const productStatus = useSelector((state) => state.products.status);
-    const error = useSelector((state) => state.products.error);
+    const productsState = useSelector((state) => state.products);
+    const { items: products, loading, error } = productsState;
 
     useEffect(() => {
-        if (productStatus === 'idle') {
-            dispatch(fetchProducts());
-        }
-    }, [dispatch, productStatus]);
+        dispatch(fetchProducts());
+    }, [dispatch]);
 
-    // İçerik yükleme durumuna göre render edilecek
-    if (productStatus === 'loading') {
-        return <div>Loading...</div>;
-    } else if (productStatus === 'failed') {
-        return <div>Error: {error}</div>;
-    }
-    const displayedProducts = products.slice(0, 12);
 
     const handleAddToCart = (product) => {
-        dispatch(addToCart(product));
+        // Kullanıcı giriş yapmışsa, userId'yi gerçek kullanıcı ID'si ile değiştirin
+        const userId = 1; // Örnek kullanıcı ID
+        dispatch(addToCart({ userId, productId: product.id, quantity: 1 }));
     };
+
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+
 
 
     return (
@@ -172,31 +170,30 @@ function ShopPage() {
                             {/* Shop Wrapper Start */}
                             <div className="row shop-wrapper grid_3">
 
-                                {displayedProducts.map((product) => (
+                                {products.map((product) => (
                                     <div key={product.id} className="col-lg-4 col-md-4 col-sm-6 col-12 mb-20">
-                                        {/* Single-Product-Start */}
+                                        {/* Single Product Start */}
                                         <div className="item-product pt-0">
                                             <div className="product-thumb">
-                                                <a href={`product-details/${product.id}`}>
-                                                    <img src={product.image} alt={product.title} className="img-fluid" />
-                                                </a>
-
+                                                <Link to={`/product-details/${product.id}`}>
+                                                    <img src={product.image} alt={product.name} className="img-fluid" />
+                                                </Link>
                                                 <div className="action-link">
                                                     <a className="wishlist-add same-link" href="wishlist.html" title="Add to wishlist"><i className="zmdi zmdi-favorite-outline zmdi-hc-fw" /></a>
                                                 </div>
                                             </div>
                                             <div className="product-caption">
                                                 <div className="product-name">
-                                                    <a href={`product-details/${product.id}`}>{product.title}</a>
+                                                    <Link to={`/product-details/${product.id}`}>{product.name}</Link>
                                                 </div>
 
                                                 <div className="price-box">
                                                     <span className="regular-price">${product.price}</span>
-
                                                 </div>
                                                 <div className="cart">
                                                     <button onClick={() => handleAddToCart(product)} title="Add to cart">
                                                         <i className="zmdi zmdi-shopping-cart-plus zmdi-hc-fw" />
+                                                        Add to Cart
                                                     </button>
                                                 </div>
                                             </div>
@@ -207,7 +204,7 @@ function ShopPage() {
 
                             </div>
                             {/* Shop Wrapper End */}
-                          
+
                         </div>
                     </div>
                 </div>

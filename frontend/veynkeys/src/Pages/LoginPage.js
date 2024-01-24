@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
 
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -13,11 +13,21 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(loginUser({ email, password })).unwrap();
-      navigate('/home');  // Giriş başarılıysa anasayfaya yönlendir
+      const actionResult = await dispatch(loginUser({ username, password }));
+      const user = actionResult.payload.user;
+      const token = actionResult.payload.token;
+      
+    
+      
+      localStorage.setItem('token', token);
+      
+      navigate('/home'); 
     } catch (err) {
-      // Hata işleme
+      
       console.error('Failed to login:', err);
+      if (err.message) {
+        alert(err.message);
+      }
     }
   };
 
@@ -32,13 +42,13 @@ function LoginPage() {
                 <form className="form-row" onSubmit={handleSubmit}>
                   <h1 className="last-title mb-30 text-center">Login to Your Account</h1>
                   <div className="form_group col-12">
-                    <label className="form-label">Email <span>*</span></label>
+                    <label className="form-label">Username <span>*</span></label>
                     <input
-                    placeholder='emrullah@user.com'
+                    placeholder='emrullahyabasun'
                       className="input-form"
                       type="text"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
                     />
                   </div>
                   <div className="form_group col-12 position-relative">

@@ -1,15 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-export const loginUser = createAsyncThunk('users/loginUser', async ({ email, password }) => {
-    const response = await fetch('http://localhost:3000/Users');
-    const users = await response.json();
-    const foundUser = users.find(user => user.email === email && user.password === password);
-    if (foundUser) {
-        return foundUser;
-    } else {
-        throw new Error('Invalid email or password');
+export const loginUser = createAsyncThunk('users/loginUser', async ({ username, password }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/loginuser`, { username, password });
+      // API'nin JWT token döndürdüğünü varsayıyoruz.
+      return response.data; // Burada { user, token } gibi bir nesne döndürülür.
+    } catch (err) {
+      if (!err.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
     }
-});
+  });
 
 const usersSlice = createSlice({
     name: 'users',

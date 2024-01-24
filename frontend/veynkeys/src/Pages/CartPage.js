@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart, updateCartQuantity, } from '../Slices/cartSlice';
+import { Link } from 'react-router-dom';
 
 function CartPage() {
 
@@ -12,12 +13,14 @@ function CartPage() {
   };
 
   const handleUpdateQuantity = (productId, newQuantity) => {
-    dispatch(updateCartQuantity({ productId, newQuantity }));
+    if (newQuantity > 0) {
+      dispatch(updateCartQuantity({ productId, newQuantity }));
+    }
   };
 
   // Sepetin toplam tutarını hesaplayın
   const calculateTotal = () => {
-    return Object.values(cart.items).reduce((total, item) => total + item.price * item.quantity, 0);
+    return cart.items.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
 
@@ -51,29 +54,28 @@ function CartPage() {
                         </tr>
                       </thead>
                       <tbody>
-                        {Object.keys(cart.items).map((key) => {
-                          const item = cart.items[key];
-                          return (
-                            <tr key={item.id}>
-                              <td className="product-image"><img src={item.image} alt={item.title} style={{width:150}} /></td>
-                              <td className="product-name">{item.title}</td>
-                              <td className="product-price">£{item.price}</td>
-                              <td className="product-quantity">
-                                <input
-                                  type="number"
-                                  defaultValue={item.quantity}
-                                  onChange={(e) => handleUpdateQuantity(item.id, parseInt(e.target.value))}
-                                />
-                              </td>
-                              <td className="product-total">£{item.price * item.quantity}</td>
-                              <td className="product-remove">
-                                <button onClick={() => handleRemoveFromCart(item.id)}>
-                                  <i className="fa fa-trash-o" />
-                                </button>
-                              </td>
-                            </tr>
-                          );
-                        })}
+                        {cart.items.map((item) => (
+                          <tr key={item.id}>
+                            <td className="product-image">
+                              <img src={item.image} alt={item.title} style={{ width: '150px' }} />
+                            </td>
+                            <td className="product-name">{item.title}</td>
+                            <td className="product-price">£{item.price}</td>
+                            <td className="product-quantity">
+                              <input
+                                type="number"
+                                value={item.quantity}
+                                onChange={(e) => handleUpdateQuantity(item.id, parseInt(e.target.value) || 0)}
+                              />
+                            </td>
+                            <td className="product-total">£{item.price * item.quantity}</td>
+                            <td className="product-remove">
+                              <button onClick={() => handleRemoveFromCart(item.id)}>
+                                <i className="fa fa-trash-o" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
@@ -89,10 +91,10 @@ function CartPage() {
                           <a href="#">Calculate Total</a>
                           <div className="cart-subtotal">
                             <p>Total</p>
-                            <p className="cart-amount">£{calculateTotal()}</p>
+                            <p className="cart-amount">{calculateTotal().toFixed(2)}</p>
                           </div>
                           <div className="checkout-btn">
-                            <a href="#">Proceed to Checkout</a>
+                            <Link to="/ShopPage">Proceed to Checkout</Link>
                           </div>
                         </div>
                       </div>

@@ -14,6 +14,8 @@
         public string? Phone { get; set; }
         public string? Email { get; set; }
         public DateTime Date { get; set; }
+        public bool IsStatus { get; set; } = true;
+        public bool IsArrived { get; set; }
         public List<OrderProduct>? OrderDetails { get; set; }
     }
 }

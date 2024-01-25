@@ -14,22 +14,24 @@ function LoginPage() {
     e.preventDefault();
     try {
       const actionResult = await dispatch(loginUser({ username, password }));
-      const user = actionResult.payload.user;
-      const token = actionResult.payload.token;
-      
-    
-      
-      localStorage.setItem('token', token);
-      
-      navigate('/home'); 
-    } catch (err) {
-      
-      console.error('Failed to login:', err);
-      if (err.message) {
-        alert(err.message);
+      if (actionResult.payload && actionResult.payload.authToken) {
+        
+        const { authToken, username, email } = actionResult.payload;
+        localStorage.setItem('token', authToken);
+        
+        
+        console.log('Logged in user:', { username, email });
+        navigate('/home');
+      } else {
+        console.error('Login failed: No token returned');
       }
+    } catch (err) {
+      console.error('Failed to login:', err);
+      alert('Login failed: ' + (err.message || 'Unknown error'));
     }
-  };
+};
+
+
 
   return (
     <>

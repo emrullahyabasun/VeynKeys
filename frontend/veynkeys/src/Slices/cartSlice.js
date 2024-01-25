@@ -1,24 +1,36 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const addToCart = createAsyncThunk('cart/addToCart', async ({ userId, productId, quantity }) => {
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/cart/AddToCart`, {
+export const addToCart = createAsyncThunk('cart/addToCart', async ({ productId, quantity }, { getState }) => {
+    const state = getState();
+    if (!state.users.user || !state.users.user.id) {
+        throw new Error("Kullanıcı girişi yapılmamış.");
+    }
+    const userId = state.users.user.id;
+    const token = localStorage.getItem('token'); // Token'ı localStorage'dan alın
+    const response = await axios.post(`https://localhost:7297/api/Cart/AddToCart`, {
         userId,
         productId,
-        quantity 
+        quantity
+    }, {
+        headers: {
+            Authorization: `Bearer ${token}` // Token'ı burada ekleyin
+        }
+
+
     });
     return response.data;  // Burada sepete eklenen ürünün verisini dönebilirsiniz
 });
 
 export const removeFromCart = createAsyncThunk('cart/removeFromCart', async (productId, { getState }) => {
-    const userId = getState().user.id; // Varsayılan kullanıcı ID'nizi state'den alın
-    const response = await axios.delete(`${process.env.REACT_APP_API_URL}/cart/RemoveFromCart?userId=${userId}&productId=${productId}`);
+    const userId = getState().users.user.id;
+    const response = await axios.delete(`https://localhost:7297/api/Cart/RemoveFromCart?userId=${userId}&productId=${productId}`);
     return productId;  // Sadece productId'yi döndürün, çünkü bu reducer tarafından kullanılacak
 });
 
 export const updateCartQuantity = createAsyncThunk('cart/updateCartQuantity', async ({ productId, newQuantity }, { getState }) => {
-    const userId = getState().user.id; // Varsayılan kullanıcı ID'nizi state'den alın
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/cart/UpdateQuantity`, {
+    const userId = getState().users.user.id;
+    const response = await axios.post(`https://localhost:7297/api/Cart/UpdateQuantity`, {
         userId,
         productId,
         quantity: newQuantity

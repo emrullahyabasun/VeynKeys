@@ -1,4 +1,6 @@
-﻿using VeynKeysAPI.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using VeynKeysAPI.Data;
+using VeynKeysAPI.Models;
 using VeynKeysAPI.Services.Interfaces;
 using VeynKeysAPI.Services.Models;
 
@@ -8,29 +10,38 @@ namespace VeynKeysAPI.Services
     public class AuthService : IAuthService
     {
         readonly ITokenService tokenService;
+        readonly DataContext context;
 
-        public AuthService(ITokenService tokenService)
+        public AuthService(ITokenService tokenService, DataContext context)
         {
             this.tokenService = tokenService;
+            this.context = context;
         }
 
         public async Task<UserLoginResponse> LoginUserAsync(UserLoginRequest request)
         {
             UserLoginResponse response = new();
 
-            if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
+            
+            var user = await context.User
+                                    .SingleOrDefaultAsync(u => u.Username == request.Username && u.Password == request.Password);
+
+            if (user == null)
             {
-                throw new ArgumentNullException(nameof(request));
+                
+                throw new ArgumentException("Username or password is incorrect.");
             }
 
-            if (request.Username == "onur" && request.Password == "123456")
-            {
-                var generatedTokenInformation = await tokenService.GenerateToken(new GenerateTokenRequest { Username = request.Username });
+            // token oluşur
+            var generatedTokenInformation = await tokenService.GenerateToken(new GenerateTokenRequest { Username = user.Username });
 
-                response.AuthenticateResult = true;
-                response.AuthToken = generatedTokenInformation.Token;
-                response.AccessTokenExpireDate = generatedTokenInformation.TokenExpireDate;
-            }
+            response.Username = user.Username;
+            response.Password = user.Password;
+            response.Email = user.Email; 
+            response.UserId = user.Id;
+            response.AuthenticateResult = true;
+            response.AuthToken = generatedTokenInformation.Token;
+            response.AccessTokenExpireDate = generatedTokenInformation.TokenExpireDate;
 
             return response;
         }

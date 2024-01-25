@@ -29,10 +29,22 @@ namespace VeynKeysAPI
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            //JWT
-            builder.Services.AddTransient<IAuthService, AuthService>();
+            //cors istekler icin
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "MyAllowSpecificOrigins",
+                                  policy =>
+                                  {
+                                      policy.WithOrigins("http://localhost:3000")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                                  });
+            });
 
-            builder.Services.AddTransient<ITokenService, TokenService>();
+            //JWT
+            builder.Services.AddScoped<IAuthService, AuthService>();
+
+            builder.Services.AddScoped<ITokenService, TokenService>();
 
             builder.Services.AddAuthentication(options =>
             {
@@ -75,7 +87,7 @@ namespace VeynKeysAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("MyAllowSpecificOrigins");
             app.UseHttpsRedirection();
 
             app.UseAuthentication();

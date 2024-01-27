@@ -14,18 +14,18 @@ export const addToCart = createAsyncThunk('cart/addToCart', async ({ productId, 
         quantity
     }, {
         headers: {
-            Authorization: `Bearer ${token}` // Token'ı burada ekleyin
+            Authorization: `Bearer ${token}` 
         }
 
 
     });
-    return response.data;  // Burada sepete eklenen ürünün verisini dönebilirsiniz
+    return response.data;  
 });
 
 export const removeFromCart = createAsyncThunk('cart/removeFromCart', async (productId, { getState }) => {
     const userId = getState().users.user.id;
     const response = await axios.delete(`https://localhost:7297/api/Cart/RemoveFromCart?userId=${userId}&productId=${productId}`);
-    return productId;  // Sadece productId'yi döndürün, çünkü bu reducer tarafından kullanılacak
+    return productId;  
 });
 
 export const updateCartQuantity = createAsyncThunk('cart/updateCartQuantity', async ({ productId, newQuantity }, { getState }) => {
@@ -35,7 +35,7 @@ export const updateCartQuantity = createAsyncThunk('cart/updateCartQuantity', as
         productId,
         quantity: newQuantity
     });
-    return { productId, quantity: newQuantity };  // Güncellenen productId ve miktarı döndürün
+    return { productId, quantity: newQuantity };  
 });
 
 export const cartSlice = createSlice({
@@ -46,7 +46,7 @@ export const cartSlice = createSlice({
         error: null
     },
     reducers: {
-        // Burada senkron cart reducers tanımlayabilirsiniz.
+        
     },
     extraReducers: (builder) => {
         builder
